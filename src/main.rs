@@ -11,9 +11,11 @@ struct Cli {
 
 fn main() {
     let args = Cli::parse();
-    // Note: the parse method is meant to be used in main.
-    // When it fails, it will print out an erro or help message and immediately exit the program.
-    // Don't use it in other places!
 
-    println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
+    let content = std::fs::read_to_string(&args.path).expect("could not read file");
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line);
+        }
+    }
 }
